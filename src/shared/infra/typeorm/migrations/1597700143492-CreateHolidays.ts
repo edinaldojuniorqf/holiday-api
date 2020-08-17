@@ -25,6 +25,16 @@ export class CreateHolidays1597700143492 implements MigrationInterface {
             isNullable: false
           },
           {
+            name: 'day',
+            type: 'numeric',
+            isNullable: true,
+          },
+          {
+            name: 'month',
+            type: 'numeric',
+            isNullable: true,
+          },
+          {
             name: 'county_id',
             type: 'uuid',
             isNullable: true,

@@ -10,7 +10,7 @@ import {
 import County from './County';
 import State from './State';
 
-enum HolidayType {
+export enum HolidayType {
   National,
   State,
   Municipal
@@ -26,6 +26,12 @@ class Holiday {
 
   @Column()
   type: HolidayType;
+
+  @Column()
+  day: Number
+
+  @Column()
+  month: Number
 
   @Column()
   county_id: string;
