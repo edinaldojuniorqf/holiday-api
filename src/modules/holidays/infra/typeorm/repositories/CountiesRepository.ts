@@ -10,6 +10,14 @@ export default class CountiesRepository implements ICountiesRepository {
     this.ormRepository = getRepository(County);
   }
 
+  public async findByCod(cod: string): Promise<County | undefined> {
+    return await this.ormRepository.findOne({
+      where: {
+        cod,
+      }
+    });
+  }
+
   public async create(data: ICreateCountyDTO | ICreateCountyDTO[]): Promise<County | County[]> {
     if (data instanceof Array) {
       const counties = data.map(item => this.ormRepository.create(item));

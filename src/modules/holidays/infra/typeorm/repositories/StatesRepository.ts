@@ -10,6 +10,14 @@ export default class StatesRepository implements IStatesRepository {
     this.ormRepository = getRepository(State);
   }
 
+  public async findByCod(cod: string): Promise<State | undefined> {
+    return await this.ormRepository.findOne({
+      where: {
+        cod,
+      }
+    })
+  }
+
   public async findAll(): Promise<State[]> {
     const states = await this.ormRepository.find();
     return states;

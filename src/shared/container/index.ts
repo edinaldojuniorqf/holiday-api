@@ -4,6 +4,8 @@ import CountiesRepository from '@modules/holidays/infra/typeorm/repositories/Cou
 import ICountiesRepository from '@modules/holidays/repositories/ICountiesRepository';
 import IStatesRepository from '@modules/holidays/repositories/IStatesRepository';
 import StatesRepository from '@modules/holidays/infra/typeorm/repositories/StatesRepository';
+import IHolidaysRepository from '@modules/holidays/repositories/IHolidaysRepository';
+import HolidaysRepository from '@modules/holidays/infra/typeorm/repositories/HolidaysRepository';
 
 container.registerSingleton<ICountiesRepository>(
   'CountiesRepository',
@@ -13,4 +15,9 @@ container.registerSingleton<ICountiesRepository>(
 container.registerSingleton<IStatesRepository>(
   'StatesRepository',
   StatesRepository,
+);
+
+container.registerSingleton<IHolidaysRepository>(
+  'HolidaysRepository',
+  HolidaysRepository,
 );

@@ -34,14 +34,14 @@ class Holiday {
   month: Number
 
   @Column()
-  county_id: string;
+  county_id: string | null;
 
   @ManyToOne(() => County, county => county.holiday)
   @JoinColumn({ name: 'county_id' })
   county: County;
 
   @Column()
-  state_id: string;
+  state_id: string | null;
 
   @ManyToOne(() => State, state => state.holiday)
   @JoinColumn({ name: 'state_id' })
