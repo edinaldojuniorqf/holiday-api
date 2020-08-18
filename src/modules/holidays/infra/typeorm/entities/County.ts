@@ -5,8 +5,10 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from "typeorm";
 import Holiday from "./Holiday";
+import State from "./State";
 
 @Entity('counties')
 class County {

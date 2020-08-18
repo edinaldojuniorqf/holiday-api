@@ -19,7 +19,7 @@ export default class StatesRepository implements IStatesRepository {
     if (data instanceof Array) {
       const states = data.map(item => this.ormRepository.create(item));
       await this.ormRepository.save(states);
-      return states;      
+      return states;
     } else {
       const state = this.ormRepository.create(data);
       await this.ormRepository.save(state);
