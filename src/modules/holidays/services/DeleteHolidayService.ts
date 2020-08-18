@@ -8,8 +8,8 @@ import GetHolidayTypeService from '@modules/holidays/services/GetHolidayTypeServ
 
 interface IRequest {
   cod: string;
-  day: number,
-  month: number,
+  day: number;
+  month: number;
 }
 
 interface IResponse {
@@ -18,7 +18,7 @@ interface IResponse {
 }
 
 @injectable()
-export default class DeleteHolidayMovableService {
+export default class DeleteHolidayService {
   constructor(
     @inject('HolidaysRepository')
     private holidayRepository: IHolidaysRepository,
@@ -39,6 +39,19 @@ export default class DeleteHolidayMovableService {
 
     const type = this.getHolidayType.execute(cod);
 
+    const holidayNational = await this.holidayRepository.findByDayAndMonthAndType({
+      day,
+      month,
+      type: HolidayType.National,
+    });
+
+    if (holidayNational) {
+      throw new AppError(
+        `It is not allowed to remove national holidays with code ${cod}`,
+        403
+      );
+    }
+
     switch(type) {
       case HolidayType.State:
         const state = await this.statesRepository.findByCod(cod);
@@ -56,6 +69,16 @@ export default class DeleteHolidayMovableService {
         break;
 
       case HolidayType.Municipal:
+        const holidayState = await this.holidayRepository.findByDayAndMonthAndType({
+          day,
+          month,
+          type: HolidayType.State
+        });
+
+        if (holidayState) {
+          throw new AppError('Removing state holidays with city code is not allowed', 403);
+        }        
+
         const county = await this.countiesRepository.findByCod(cod);
 
         if (!county) {

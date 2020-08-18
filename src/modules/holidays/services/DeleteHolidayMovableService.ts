@@ -56,7 +56,7 @@ export default class DeleteHolidayMovableService {
         const state = await this.statesRepository.findByCod(cod);
 
         if (!state) {
-          throw new AppError(`State with code ${cod} not found`);
+          throw new AppError(`State with code ${cod} not found`, 404);
         }
 
         holiday = await this.holidayRepository.findByNameAndState({
@@ -69,7 +69,7 @@ export default class DeleteHolidayMovableService {
         const county = await this.countiesRepository.findByCod(cod);
 
         if (!county) {
-          throw new AppError(`County with code ${cod} not found`);
+          throw new AppError(`County with code ${cod} not found`, 404);
         }
 
         holiday = await this.holidayRepository.findByNameAndCounty({
