@@ -23,7 +23,7 @@ const validateWithName = celebrate({
   }
 });
 
-holidaysRouter.route('/:cod/:day-:month')
+holidaysRouter.route('/:cod/:month-:day')
   .put(validateWithDate, holidaysController.create)
   .post(validateWithDate, holidaysController.create);
 
@@ -31,6 +31,18 @@ holidaysRouter.put(
   '/:cod/:name',
   validateWithName,
   holidaysMovableController.create  
+);
+
+holidaysRouter.delete(
+  '/:cod/:month-:day',
+  validateWithDate,
+  holidaysController.delete
+)
+
+holidaysRouter.delete(
+  '/:cod/:name',
+  validateWithName,
+  holidaysMovableController.delete
 );
 
 export default holidaysRouter;
