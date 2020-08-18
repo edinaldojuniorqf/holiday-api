@@ -7,6 +7,8 @@ import StatesRepository from '@modules/holidays/infra/typeorm/repositories/State
 import IHolidaysRepository from '@modules/holidays/repositories/IHolidaysRepository';
 import HolidaysRepository from '@modules/holidays/infra/typeorm/repositories/HolidaysRepository';
 
+import GetHolidayTypeService from '@modules/holidays/services/GetHolidayTypeService';
+
 container.registerSingleton<ICountiesRepository>(
   'CountiesRepository',
   CountiesRepository,
@@ -21,3 +23,8 @@ container.registerSingleton<IHolidaysRepository>(
   'HolidaysRepository',
   HolidaysRepository,
 );
+
+container.registerSingleton(
+  'GetHolidayTypeService',
+  GetHolidayTypeService,
+)

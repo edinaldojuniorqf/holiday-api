@@ -18,4 +18,8 @@ export default class HolidaysControler {
     
     response.status(statusCode).json(holiday);
   }
+
+  public async delete(request: Request, response: Response): Promise<void> {
+    
+  }
 }

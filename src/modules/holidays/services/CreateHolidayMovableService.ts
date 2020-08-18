@@ -46,7 +46,7 @@ export default class CreateHolidayMovableService {
       throw new AppError(`County not found with cod ${cod}`);
     }
 
-    holiday = await this.holidayRepository.findByName(name);
+    holiday = await this.holidayRepository.findByName(holidayName);
 
     if (!holiday) {
       holiday = await this.holidayRepository.create({

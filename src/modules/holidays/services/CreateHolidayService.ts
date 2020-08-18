@@ -18,6 +18,7 @@ interface IResponse {
   statusCode: number,
 }
 
+// TODO: remover função e usar GetHolidayService
 function getHolidayType(cod: string): HolidayType {
   if (cod.length == 2) {
     return HolidayType.State;
@@ -47,7 +48,7 @@ export default class CreateHolidayService {
   }: IRequest): Promise<IResponse> {
     const type = getHolidayType(cod);
 
-    const findHoliday = await this.holidayRepository.findOneByDayAndMonthAndType({
+    const findHoliday = await this.holidayRepository.findByDayAndMonthAndType({
       day,
       month,
       type,

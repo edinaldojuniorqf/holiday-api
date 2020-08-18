@@ -1,0 +1,94 @@
+import { injectable, inject } from 'tsyringe';
+import AppError from '@shared/errors/AppError';
+import Holiday, { HolidayType } from '../infra/typeorm/entities/Holiday';
+import IHolidaysRepository from '../repositories/IHolidaysRepository';
+import ICountiesRepository from '../repositories/ICountiesRepository';
+import IStatesRepository from '../repositories/IStatesRepository';
+import GetHolidayTypeService from '@modules/holidays/services/GetHolidayTypeService';
+
+interface IRequest {
+  cod: string;
+  name: string;
+}
+
+interface IResponse {
+  holiday: Holiday;
+  statusCode: number;
+}
+
+@injectable()
+export default class DeleteHolidayMovableService {
+  constructor(
+    @inject('HolidaysRepository')
+    private holidayRepository: IHolidaysRepository,
+
+    @inject('CountiesRepository')
+    private countiesRepository: ICountiesRepository,
+
+    @inject('StatesRepository')
+    private statesRepository: IStatesRepository,
+
+    @inject('GetHolidayTypeService')
+    private getHolidayType: GetHolidayTypeService,
+  ) {}
+
+  public async execute({ cod, name }: IRequest): Promise<IResponse> {
+    let holiday: Holiday | undefined,
+      statusCode = 204,
+      holidayName: string = '';
+
+    // TODO: criar service
+    switch (name) {
+      case 'carnaval':
+        holidayName = 'Carnaval';
+        break;
+      case 'corpus-christi':
+        holidayName = 'Corpus Christi';
+        break;
+      default:
+        holidayName = name;
+    }
+
+    const type = this.getHolidayType.execute(cod);
+
+    switch (type) {
+      case HolidayType.State:
+        const state = await this.statesRepository.findByCod(cod);
+
+        if (!state) {
+          throw new AppError(`State with code ${cod} not found`);
+        }
+
+        holiday = await this.holidayRepository.findByNameAndState({
+          name: holidayName,
+          state_id: state.id,
+        });
+        break;
+      
+      case HolidayType.Municipal:
+        const county = await this.countiesRepository.findByCod(cod);
+
+        if (!county) {
+          throw new AppError(`County with code ${cod} not found`);
+        }
+
+        holiday = await this.holidayRepository.findByNameAndCounty({
+          name: holidayName,
+          county_id: county.id,
+        });
+        break;
+    }
+    
+
+    if (!holiday) {
+      throw new AppError(`${holidayName} not found.`, 404);
+    }
+
+    await this.holidayRepository.delete(holiday.id);
+
+    return {
+      holiday,
+      statusCode
+    }
+  }
+}
