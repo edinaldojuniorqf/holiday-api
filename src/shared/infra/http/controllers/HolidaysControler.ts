@@ -18,7 +18,7 @@ export default class HolidaysControler {
       month: Number(month),
     });
     
-    response.status(statusCode).json(holiday);CreateHolidayService
+    response.status(statusCode).json(holiday);
   }
 
   public async delete(request: Request, response: Response): Promise<void> {
