@@ -5,6 +5,7 @@ import ICreateHolidayDTO from '../dtos/ICreateHolidayDTO';
 import ICountiesRepository from '../repositories/ICountiesRepository';
 import AppError from '@shared/errors/AppError';
 import IStatesRepository from '../repositories/IStatesRepository';
+import GetHolidayTypeService from './GetHolidayTypeService';
 
 interface IRequest {
   cod: string;
@@ -18,15 +19,6 @@ interface IResponse {
   statusCode: number,
 }
 
-// TODO: remover função e usar GetHolidayService
-function getHolidayType(cod: string): HolidayType {
-  if (cod.length == 2) {
-    return HolidayType.State;
-  }
-  
-  return HolidayType.Municipal;
-}
-
 @injectable()
 export default class CreateHolidayService {
   constructor(
@@ -38,6 +30,9 @@ export default class CreateHolidayService {
 
     @inject('StatesRepository')
     private statesRepository: IStatesRepository,
+
+    @inject('GetHolidayTypeService')
+    private getHolidayType: GetHolidayTypeService,
   ) {}
   
   public async execute({
@@ -46,7 +41,7 @@ export default class CreateHolidayService {
     day,
     month
   }: IRequest): Promise<IResponse> {
-    const type = getHolidayType(cod);
+    const type = this.getHolidayType.execute(cod);
 
     const findHoliday = await this.holidayRepository.findByDayAndMonthAndType({
       day,

@@ -8,6 +8,10 @@ import IHolidaysRepository from '@modules/holidays/repositories/IHolidaysReposit
 import HolidaysRepository from '@modules/holidays/infra/typeorm/repositories/HolidaysRepository';
 
 import GetHolidayTypeService from '@modules/holidays/services/GetHolidayTypeService';
+import GetDateEasterService from '@modules/holidays/services/GetDateEasterService';
+import GetDateCarnivalService from '@modules/holidays/services/GetDateCarnivalService';
+import GetDateCorpusChristiService from '@modules/holidays/services/GetDateCorpusChristiService';
+import GetDateGoodFridayService from '@modules/holidays/services/GetDateGoodFridayService';
 
 container.registerSingleton<ICountiesRepository>(
   'CountiesRepository',
@@ -27,4 +31,24 @@ container.registerSingleton<IHolidaysRepository>(
 container.registerSingleton(
   'GetHolidayTypeService',
   GetHolidayTypeService,
-)
+);
+
+container.registerSingleton(
+  'GetDateEasterService',
+  GetDateEasterService,
+);
+
+container.registerSingleton(
+  'GetDateCarnivalService',
+  GetDateCarnivalService,
+);
+
+container.registerSingleton(
+  'GetDateCorpusChristiService',
+  GetDateCorpusChristiService,
+);
+
+container.registerSingleton(
+  'GetDateGoodFridayService',
+  GetDateGoodFridayService,
+);

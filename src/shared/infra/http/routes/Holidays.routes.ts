@@ -8,40 +8,65 @@ const holidaysRouter = Router();
 const holidaysController = new HolidaysController();
 const holidaysMovableController = new HolidaysMovableController();
 
-const validateWithDate = celebrate({
+holidaysRouter.get(
+  '/:cod/:year(\\d{4})-:month(\\d{2})-:day(\\d{2})',
+  celebrate({
+    [Segments.PARAMS]: {
+      cod: Joi.number().integer().required(),
+      day: Joi.number().integer().min(1).max(31).required(),
+      month: Joi.number().integer().min(1).max(12).required(),
+      year: Joi.number().integer().min(1900).max(9999).required(),
+    }
+  }),
+  holidaysController.show
+);
+
+const validateCreateWithDate = celebrate({
   [Segments.PARAMS]: {
-    cod: Joi.number().integer(),
-    day: Joi.number().integer().min(1).max(31),
-    month: Joi.number().integer().min(1).max(12),
+    cod: Joi.number().integer().required(),
+    month: Joi.number().integer().min(1).max(12).required(),
+    day: Joi.number().integer().min(1).max(31).required(),
+  },
+  [Segments.BODY]: {
+    name: Joi.string().required(),
   }
 });
 
-const validateWithName = celebrate({
+holidaysRouter.route('/:cod/:month(\\d{2})-:day(\\d{2})')
+  .put(validateCreateWithDate, holidaysController.create)
+  .post(validateCreateWithDate, holidaysController.create);
+
+const validateCreateWithName = celebrate({
   [Segments.PARAMS]: {
-    cod: Joi.number().integer(),
-    name: Joi.string(),
+    cod: Joi.number().integer().required(),
+    name: Joi.string().required(),
   }
 });
 
-holidaysRouter.route('/:cod/:month-:day')
-  .put(validateWithDate, holidaysController.create)
-  .post(validateWithDate, holidaysController.create);
+holidaysRouter.route('/:cod/:name')
+  .put(validateCreateWithName, holidaysMovableController.create)
+  .post(validateCreateWithName, holidaysMovableController.create);
 
-holidaysRouter.put(
-  '/:cod/:name',
-  validateWithName,
-  holidaysMovableController.create  
+holidaysRouter.delete(
+  '/:cod/:month(\\d{2})-:day(\\d{2})',
+  celebrate({
+    [Segments.PARAMS]: {
+      cod: Joi.number().integer().required(),
+      month: Joi.number().integer().min(1).max(12).required(),
+      day: Joi.number().integer().min(1).max(31).required(),
+    },
+  }),
+  holidaysController.delete
 );
 
 holidaysRouter.delete(
-  '/:cod/:month-:day',
-  validateWithDate,
-  holidaysController.delete
-)
-
-holidaysRouter.delete(
   '/:cod/:name',
-  validateWithName,
+  celebrate({
+    [Segments.PARAMS]: {
+      cod: Joi.number().integer().required(),
+      name: Joi.string().required(),
+    }
+  }),
   holidaysMovableController.delete
 );
 
