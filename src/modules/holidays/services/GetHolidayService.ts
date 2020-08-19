@@ -165,11 +165,11 @@ export default class GetHolidayService {
       }
     }
 
-    const dataGoodFriday = this.getDateGoodFridayService.execute(dateEaster);
+    const dateGoodFriday = this.getDateGoodFridayService.execute(dateEaster);
     if (
-      year === dataGoodFriday.getFullYear() && 
-      month === (dataGoodFriday.getMonth() + 1) && 
-      day === dataGoodFriday.getDate()
+      year === dateGoodFriday.getFullYear() && 
+      month === (dateGoodFriday.getMonth() + 1) && 
+      day === dateGoodFriday.getDate()
     )  {
       holiday = new Holiday();
       holiday.name = 'Sexta-Feira Santa';
