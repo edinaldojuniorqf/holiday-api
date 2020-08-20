@@ -114,22 +114,18 @@ export default class GetHolidayService {
           }
         }
 
-        const state = await county.state;
+        holiday = await this.holidayRepository.findByDayAndMonthAndTypeAndState({
+          day,
+          month,
+          type: HolidayType.State,
+          state_id: county.state_id,
+        });
 
-        if (state) {
-          holiday = await this.holidayRepository.findByDayAndMonthAndTypeAndState({
-            day,
-            month,
-            type: HolidayType.State,
-            state_id: state.id,
-          });
-    
-          if (holiday) {
-            return {
-              statusCode: 200,
-              holiday,
-            };
-          }
+        if (holiday) {
+          return {
+            statusCode: 200,
+            holiday,
+          };
         }
       }
     }

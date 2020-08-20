@@ -11,9 +11,9 @@ import County from './County';
 import State from './State';
 
 export enum HolidayType {
-  National,
-  State,
-  Municipal
+  National = 'National',
+  State = 'State',
+  Municipal = 'Municipal'
 }
 
 @Entity('holidays')

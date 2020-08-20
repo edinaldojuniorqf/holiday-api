@@ -28,10 +28,6 @@ class County {
   @Column()
   state_id: string;
 
-  @ManyToOne(() => State)
-  @JoinColumn({ name: 'state_id' })
-  state: Promise<State>;
-
   @CreateDateColumn()
   created_at: Date;
 
