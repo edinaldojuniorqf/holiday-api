@@ -38,6 +38,7 @@ const validateCreateWithDate = celebrate({
 const validateDeleteWithDate = celebrate({
   [Segments.PARAMS]: {
     cod: Joi.number().integer().required(),
+    year: Joi.number().integer(),
     month: Joi.number().integer().min(1).max(12).required(),
     day: Joi.number().integer().min(1).max(31).required(),
   },
@@ -65,7 +66,10 @@ holidaysRouter.route('/:cod/:name')
   .post(validateCreateWithName, holidaysMovableController.create);
 
 holidaysRouter.delete(
-  '/:cod/:month(\\d{2})-:day(\\d{2})',
+  [
+    '/:cod/:month(\\d{2})-:day(\\d{2})',
+    '/:cod/:year\\d+-:month(\\d{2})-:day(\\d{2})'
+  ],
   validateDeleteWithDate,
   holidaysController.delete
 );
