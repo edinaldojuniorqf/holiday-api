@@ -1,8 +1,9 @@
 import { injectable, inject } from 'tsyringe';
+import AppError from '@shared/errors/AppError';
 import Holiday, { HolidayType } from "../infra/typeorm/entities/Holiday"
 import IHolidaysRepository from '../repositories/IHolidaysRepository';
 import ICountRepository from '../repositories/ICountiesRepository';
-import AppError from '@shared/errors/AppError';
+import GetHolidayMovableNameService from './GetHolidayMovableNameService';
 
 interface IRequest {
   cod: string;
@@ -22,6 +23,9 @@ export default class CreateHolidayMovableService {
 
     @inject('CountiesRepository')
     private countiesRepository: ICountRepository,
+
+    @inject('GetHolidayMovableNameService')
+    private getHolidayMovableName: GetHolidayMovableNameService
   ) {}
 
   public async execute({ cod, name}: IRequest): Promise<IResponse> {
@@ -29,16 +33,7 @@ export default class CreateHolidayMovableService {
       holidayName: string = '',
       statusCode = 200;
 
-    switch (name) {
-      case 'carnaval':
-        holidayName = 'Carnaval';
-        break;
-      case 'corpus-christi':
-        holidayName = 'Corpus Christi';
-        break;
-      default:
-        holidayName = name;
-    }
+    holidayName = this.getHolidayMovableName.execute(name);
 
     const county = await this.countiesRepository.findByCod(cod);
 

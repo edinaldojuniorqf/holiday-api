@@ -12,6 +12,7 @@ import GetDateEasterService from '@modules/holidays/services/GetDateEasterServic
 import GetDateCarnivalService from '@modules/holidays/services/GetDateCarnivalService';
 import GetDateCorpusChristiService from '@modules/holidays/services/GetDateCorpusChristiService';
 import GetDateGoodFridayService from '@modules/holidays/services/GetDateGoodFridayService';
+import GetHolidayMovableNameService from '@modules/holidays/services/GetHolidayMovableNameService';
 
 container.registerSingleton<ICountiesRepository>(
   'CountiesRepository',
@@ -51,4 +52,9 @@ container.registerSingleton(
 container.registerSingleton(
   'GetDateGoodFridayService',
   GetDateGoodFridayService,
+);
+
+container.registerSingleton(
+  'GetHolidayMovableNameService',
+  GetHolidayMovableNameService,
 );

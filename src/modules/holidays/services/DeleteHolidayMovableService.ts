@@ -4,7 +4,8 @@ import Holiday, { HolidayType } from '../infra/typeorm/entities/Holiday';
 import IHolidaysRepository from '../repositories/IHolidaysRepository';
 import ICountiesRepository from '../repositories/ICountiesRepository';
 import IStatesRepository from '../repositories/IStatesRepository';
-import GetHolidayTypeService from '@modules/holidays/services/GetHolidayTypeService';
+import GetHolidayTypeService from './GetHolidayTypeService';
+import GetHolidayMovableNameService from './GetHolidayMovableNameService';
 
 interface IRequest {
   cod: string;
@@ -30,6 +31,9 @@ export default class DeleteHolidayMovableService {
 
     @inject('GetHolidayTypeService')
     private getHolidayType: GetHolidayTypeService,
+
+    @inject('GetHolidayMovableNameService')
+    private getHolidayMovableName: GetHolidayMovableNameService
   ) {}
 
   public async execute({ cod, name }: IRequest): Promise<IResponse> {
@@ -37,17 +41,7 @@ export default class DeleteHolidayMovableService {
       statusCode = 204,
       holidayName: string = '';
 
-    // TODO: criar service
-    switch (name) {
-      case 'carnaval':
-        holidayName = 'Carnaval';
-        break;
-      case 'corpus-christi':
-        holidayName = 'Corpus Christi';
-        break;
-      default:
-        holidayName = name;
-    }
+    holidayName = this.getHolidayMovableName.execute(name);
 
     const type = this.getHolidayType.execute(cod);
 
