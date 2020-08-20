@@ -42,7 +42,7 @@ export default class CreateHolidayMovableService {
     }
 
     holiday = await this.holidayRepository.findByNameAndCounty({
-      name,
+      name: holidayName,
       county_id: county.id,
     });
 
