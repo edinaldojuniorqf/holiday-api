@@ -6,4 +6,5 @@ tmp/*
 !tmp/.gitkeep
 /dist
 .env
-ormconfig.json
+npm-debug.log
+.DS_Store

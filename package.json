@@ -1,13 +1,16 @@
 {
   "name": "teste-backend-remoto-instruct",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.8.0"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files",
-    "dev:server": "ts-node-dev -r tsconfig-paths/register src/shared/infra/http/server.ts --transpileOnly --ignore-watch node_modules",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "dev:server": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register src/shared/infra/http/server.ts --transpileOnly --ignore-watch node_modules",
+    "typeorm": "NODE_ENV=development ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "keywords": [],
   "author": "",
