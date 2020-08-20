@@ -25,7 +25,7 @@ class Holiday {
   name: string;
 
   @Column()
-  type: HolidayType;
+  type: string;
 
   @Column()
   day: Number
