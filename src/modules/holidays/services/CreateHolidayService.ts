@@ -56,7 +56,7 @@ export default class CreateHolidayService {
         id: findHoliday.id,
         name,
       });
-      statusCode = 201;
+      statusCode = 200;
     } else {
       let data: ICreateHolidayDTO = {
         name,
@@ -84,7 +84,7 @@ export default class CreateHolidayService {
       }
 
       holiday = await this.holidayRepository.create(data);
-      statusCode = 200;
+      statusCode = 201;
     }
     
     return {

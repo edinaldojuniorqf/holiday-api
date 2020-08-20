@@ -7,10 +7,18 @@ describe('getDateEaster', () => {
     getDateEaster = new GetDateEasterService();
   })
   test('return the date correctily', () => {
-    const date = new Date(12, 3, 2020, 0, 0, 0);
-    const dateEaster = getDateEaster.execute(2020);
-    
-    expect(dateEaster.getDate()).toBe(date.getDate());
-    expect(dateEaster.getMonth()).toBe(date.getMonth());
+    let dateEaster: Date;
+
+    dateEaster = getDateEaster.execute(2020);
+    expect(dateEaster.getDate()).toBe(12);
+    expect(dateEaster.getMonth()).toBe(3);
+
+    dateEaster = getDateEaster.execute(2019);
+    expect(dateEaster.getDate()).toBe(21);
+    expect(dateEaster.getMonth()).toBe(3);
+
+    dateEaster = getDateEaster.execute(2000);
+    expect(dateEaster.getDate()).toBe(23);
+    expect(dateEaster.getMonth()).toBe(3);
   });
 });

@@ -187,7 +187,7 @@ export default class GetHolidayService {
       day === dateEaster.getDate()
     )  {
       holiday = new Holiday();
-      holiday.name = 'Domingo de Páscoa';
+      holiday.name = 'Páscoa';
       holiday.day = day;
       holiday.month = month;
       holiday.type = HolidayType.National
